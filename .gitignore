@@ -1,0 +1,16 @@
+.venv/
+**pycache**/
+*.pyc
+.DS_Store
+
+# FastF1 downloaded cache
+
+data/fastf1_cache/
+
+# Generated training data
+
+data/training_data.csv
+
+# Generated ML model
+
+models/lap_time_model.joblib
