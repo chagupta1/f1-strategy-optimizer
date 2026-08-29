@@ -1,83 +1,52 @@
-# F1 Strategy Optimizer
+#  F1 Strategy Optimizer
 
-Machine-learning race strategy analysis using historical Formula 1 race, tire, and weather data.
+An ML-powered Formula 1 strategy optimizer that uses historical lap data to predict lap times and evaluate tyre strategy under different race conditions.
 
-## Overview
+## Live Demo
 
-F1 Strategy Optimizer is an interactive machine-learning application that predicts lap performance and evaluates alternative race strategies under changing tire, weather, and race conditions.
+https://f1-strategy-optimizer-demo.streamlit.app/
 
-The project combines historical Formula 1 data with feature engineering, supervised machine learning, and strategy simulation to answer:
+> **Demo note:** The live deployment uses a lightweight preloaded demo dataset from the Monaco Grand Prix rather than the full historical dataset. The full project contains significantly more data and is intended for local use.
 
-> Given a driver, circuit, tire selection, race length, and weather conditions, which strategy is expected to produce the fastest race?
+## What It Does
 
-## Features
+* Predicts expected lap times using a Random Forest regression model
+* Evaluates tyre compounds and tyre life
+* Accounts for driver, track, race, and stint characteristics
+* Applies interpretable weather and tyre-condition adjustments
+* Simulates different strategy scenarios
+* Provides visualizations and strategy recommendations through an interactive Streamlit interface
 
-### ML Lap-Time Prediction
+## Machine Learning
 
-The system predicts expected lap time using features including:
+The model uses a `RandomForestRegressor` with preprocessing for categorical and numerical features.
+
+### Features
 
 * Driver
-* Team
-* Circuit
-* Tire compound
-* Tire age
-* Stint number
 * Lap number
+* Tyre compound
+* Tyre life
+* Stint
 * Track status
-* Air temperature
-* Track temperature
-* Humidity
-* Wind speed
-* Rainfall
+* Personal-best indicator
+* Race year
+* Grand Prix
 
-Engineered features include tire-age effects, temperature differentials, heat stress, and wet-track indicators.
+### Model
 
-### Strategy Optimizer
+* Random Forest Regression
+* 300 estimators
+* Maximum depth: 20
+* Minimum samples per leaf: 2
+* One-hot encoding for categorical variables
+* Median imputation for numerical features
 
-The Strategy Optimizer evaluates multiple tire strategies and estimates:
+## Data
 
-* Predicted total race time
-* Average lap time
-* Number of pit stops
-* Tire degradation
-* Weather effects
-* Strategy confidence
+The full project uses historical Formula 1 lap-level data processed through the project's data pipeline.
 
-Strategies are ranked automatically, with the fastest predicted strategy highlighted as the recommendation.
-
-### Weather Analysis
-
-Users can explore how changing track temperatures and environmental conditions affect predicted lap performance.
-
-### Tire Degradation
-
-The application models how predicted lap performance changes as tire age increases and compares Soft, Medium, and Hard compounds.
-
-### Model Comparison
-
-Multiple regression models are evaluated:
-
-* Ridge Regression
-* Random Forest
-* Gradient Boosting
-
-The application reports:
-
-* Mean Absolute Error
-* Root Mean Squared Error
-* R²
-* Actual vs. predicted lap performance
-
-## Tech Stack
-
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* FastF1
-* Plotly
-* Streamlit
-* Joblib
+For the deployed demo, a smaller pre-loaded Monaco dataset is included so the application can run within Streamlit's deployment constraints.
 
 ## Project Structure
 
@@ -85,57 +54,30 @@ The application reports:
 f1-strategy-optimizer/
 ├── app.py
 ├── train.py
-├── README.md
 ├── requirements.txt
-├── data/
-│   ├── training_data.csv
-│   └── fastf1_cache/
+├── README.md
+├── src/
+│   ├── data_pipeline.py
+│   ├── features.py
+│   ├── model.py
+│   ├── simulation.py
+│   └── strategy.py
 ├── models/
-│   ├── lap_time_model.joblib
-│   └── model_metadata.joblib
-└── src/
-    ├── __init__.py
-    ├── data_pipeline.py
-    ├── features.py
-    ├── model.py
-    └── strategy.py
+│   ├── feature_importance.csv
+│   └── metrics.csv
+├── data/
+│   └── demo/
+├── scripts/
+│   └── create_demo_data.py
+└── streamlit_demo/
+    ├── app.py
+    ├── demo_laps.csv
+    ├── lap_time_model.joblib
+    └── src/
+```
 
+F1 race strategy involves continuously balancing tyre degradation, pace, weather, track conditions, and pit-stop decisions. This project explores how machine learning can be combined with interpretable strategy logic to help evaluate those decisions.
 
-## Strategy Simulation
+## Tech Stack
 
-For each candidate strategy, the simulator divides the race into tire stints and predicts lap performance across the entire stint.
-
-The candidate strategies are then ranked by predicted total race time.
-
-## Important Modeling Note
-
-The strategy optimizer is a predictive decision-support system rather than a perfect representation of an F1 team's race simulator.
-
-Real-world strategy decisions depend on additional information such as:
-
-* Traffic
-* Tire availability
-* Safety-car probability
-* Fuel load
-* Overtaking difficulty
-* Track evolution
-* Competitor strategy
-* Pit-lane conditions
-* Driver behavior
-* Real-time weather forecasts
-
-The project intentionally simplifies some of these factors while demonstrating how historical data and machine learning can be combined with scenario simulation.
-
-
-The project demonstrates an end-to-end data/ML workflow:
-
-1. Collecting real-world data
-2. Cleaning and transforming data
-3. Engineering predictive features
-4. Training multiple machine-learning models
-5. Evaluating model performance
-6. Building a simulation layer
-7. Turning predictions into an optimization problem
-8. Creating an interactive decision-support interface
-
-
+**Python · Pandas · NumPy · Scikit-learn · Streamlit · Plotly · FastF1**
