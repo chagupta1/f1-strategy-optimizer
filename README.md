@@ -68,44 +68,6 @@ The application reports:
 * R²
 * Actual vs. predicted lap performance
 
-## Architecture
-
-
-Historical F1 Data
-       │
-       ▼
-FastF1 Data Pipeline
-       │
-       ▼
-Feature Engineering
-       │
-       ├── Driver / Team
-       ├── Tire
-       ├── Circuit
-       ├── Race Context
-       └── Weather
-       │
-       ▼
-ML Model Training
-       │
-       ▼
-Lap-Time Prediction
-       │
-       ▼
-Strategy Simulation
-       │
-       ├── Tire Degradation
-       ├── Pit-Stop Cost
-       ├── Weather Effects
-       └── Race Distance
-       │
-       ▼
-Strategy Ranking
-       │
-       ▼
-Interactive Streamlit Application
-```
-
 ## Tech Stack
 
 * Python
